@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">NPKAdvisorFinal</string>
+    <string name="underline"><u>Ayuda</u></string>
+    <string name="bold">¿No tienes una cuenta?<b> Registrate</b></string>
     <string name="title_activity_main_menu2">MainMenu2</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
