@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     EditText username1;
     EditText password1;
     ImageView start_user;
+    TextView register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         username1 = findViewById(R.id.username1);
         password1 = findViewById(R.id.password1);
         start_user = findViewById(R.id.btn_inicio);
+        register = findViewById(R.id.register);
+
 
         start_user.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
                 if (validate()) {
                     SignIn(Credenciales());
                 }
+            }
+        });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenRegister();
             }
         });
     }
@@ -50,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void Open() {  //Lleva a la actividad de Menú después de autenticar las credenciales.
         startActivity(new Intent(MainActivity.this, MainMenu2.class));
+    }
+    public void OpenRegister() {  //Lleva a la actividad de Menú después de autenticar las credenciales.
+        startActivity(new Intent(MainActivity.this, SignUpActivity.class));
     }
 
     @NonNull

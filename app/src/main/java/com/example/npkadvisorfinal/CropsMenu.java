@@ -81,6 +81,7 @@ public class CropsMenu extends Fragment {
                 transaction.commit();
             }
         });
+
         buttonmodify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +96,33 @@ public class CropsMenu extends Fragment {
             }
         });
 
+        buttondelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create new fragment and transaction
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setReorderingAllowed(true);
+                // Replace whatever is in the fragment_container view with this fragment
+                transaction.replace(R.id.InicialFragment, Delete_Check.newInstance("",""));
+                // Commit the transaction
+                transaction.commit();
+            }
+        });
+
+        buttonverify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create new fragment and transaction
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setReorderingAllowed(true);
+                // Replace whatever is in the fragment_container view with this fragment
+                transaction.replace(R.id.InicialFragment, Check.newInstance("",""));
+                // Commit the transaction
+                transaction.commit();
+            }
+        });
 
         return vista;
     }
