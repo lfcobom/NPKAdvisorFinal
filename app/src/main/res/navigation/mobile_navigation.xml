@@ -28,6 +28,11 @@
         android:name="com.example.npkadvisorfinal.CropsMenu"
         android:label="Mis Cultivos"
         tools:layout="@layout/fragment_crops_menu" />
+    <activity
+        android:id="@+id/grafic"
+        android:name="com.example.npkadvisorfinal.Grafic"
+        android:label="activity_grafic"
+        tools:layout="@layout/activity_grafic" />
 
 
 </navigation>

@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <item
+        android:id="@+id/media_route_menu_item"
+        android:title="Cast"
+        app:actionProviderClass="androidx.mediarouter.app.MediaRouteActionProvider"
+        tools:icon="@drawable/mr_button_light"
+        tools:ignore="DuplicateIds" />
+    <item
+        android:id="@+id/media_route_menu_item"
+        android:title="Cast"
+        app:actionProviderClass="androidx.mediarouter.app.MediaRouteActionProvider"
+        tools:icon="@drawable/mr_button_light"
+        tools:ignore="DuplicateIds" />
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/cropsMenu"
@@ -16,6 +29,12 @@
             android:id="@+id/nav_slideshow"
             android:icon="@android:drawable/ic_menu_mapmode"
             android:title="Mapas" />
+        <item
+            android:id="@+id/grafic"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="Estadísticas" />
+
+
 
 
 

@@ -25,7 +25,10 @@
         </activity>
         <activity android:name=".SignUpActivity"
             android:theme="@style/Theme.NPKAdvisorFinal.NoActionBar" />
-
+        <activity android:name=".Grafic"/>
+        <activity android:name=".GraficBar"/>
+        <activity android:name=".GraficLine"/>
+        <activity android:name=".GraficPie"/>
     </application>
 
 </manifest>
