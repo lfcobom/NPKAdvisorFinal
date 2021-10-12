@@ -2,6 +2,8 @@ package com.example.npkadvisorfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.provider.CalendarContract;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -9,6 +11,10 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -21,7 +27,8 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class GraficBar extends AppCompatActivity {
 
-     BarChart bar;
+     private BarChart bar;
+     int[]colorClassArray = new int[]{Color.RED, Color.YELLOW, Color.GREEN, Color.WHITE, Color.CYAN};
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -33,8 +40,12 @@ public class GraficBar extends AppCompatActivity {
     }
 
     public void Databar() {
-        ArrayList<BarEntry> data = new ArrayList<>();
-        ArrayList<BarEntry> data1 = new ArrayList<>();
+        ArrayList<BarEntry> datan = new ArrayList<>();
+        ArrayList<BarEntry> datap = new ArrayList<>();
+        ArrayList<BarEntry> datak = new ArrayList<>();
+        ArrayList<BarEntry> datat = new ArrayList<>();
+        ArrayList<BarEntry> datah = new ArrayList<>();
+
         Call<IndexResponse> cropResponseCall = ApiClient.getUserService().findIndex();
         cropResponseCall.enqueue(new Callback<IndexResponse>() {
             @Override
@@ -42,31 +53,42 @@ public class GraficBar extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ArrayList<IndexResponse2> indexResponse = response.body().getInfoIndex();
                     for (int i = 0; i < indexResponse.size(); i++) {
-                        android.util.Log.d(TAG, "onResponse: \n " +
-                                "Cultivo " + indexResponse.get(i).getHumedad());
-                        data.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getN().toString())));
-                        data.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getP().toString())));
-                        data.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getK().toString())));
-                       // data.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getTemp().toString())));
+                        //android.util.Log.d(TAG, "onResponse: \n " +
+                          //      "Cultivo " + indexResponse.get(i).getHumedad());
+                        datan.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getN().toString())));
+                        datap.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getP().toString())));
+                        datak.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getK().toString())));
+                        datat.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getTemp().toString())));
+                        datah.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getHumedad().toString())));
+
+
                     }
 
-                    BarDataSet barDataSet = new BarDataSet(data,"N %");
-                    barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-                    barDataSet.setValueTextColor(android.graphics.Color.BLACK);
-                    barDataSet.setValueTextSize(16f);
+                    BarDataSet set1,set2,set3,set4,set5;
 
-                    BarDataSet barDataSet1 = new BarDataSet(data,"P %");
-                    barDataSet1.setColors(ColorTemplate.MATERIAL_COLORS);
-                    barDataSet1.setValueTextColor(android.graphics.Color.BLACK);
-                    barDataSet1.setValueTextSize(16f);
-
-
-                    BarData barData = new BarData(barDataSet);
-                    bar.setFitBars(true);
+                    set1= new BarDataSet(datan,"N");
+                    set1.setColor(Color.BLUE);
+                    set2= new BarDataSet(datap,"P");
+                    //set2.setColor(Color.RED);
+                    set3= new BarDataSet(datak,"K");
+                    //set3.setColor(Color.YELLOW);
+                    set4= new BarDataSet(datat,"T°");
+                    //set4.setColor(Color.GREEN);
+                    set5= new BarDataSet(datah,"Hum°");
+                    //set5.setColor(Color.CYAN);
+                    BarData barData =  new BarData(set1,set2,set3,set4,set5);
                     bar.setData(barData);
-                    bar.getDescription().setText("JUM");
-                    bar.animateY(2000);
                     bar.invalidate();
+
+
+
+
+
+
+
+
+
+
                 }
             }
             @Override

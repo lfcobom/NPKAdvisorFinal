@@ -15,8 +15,11 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.InterruptedIOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -28,6 +31,7 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 public class GraficPie extends AppCompatActivity {
 
     PieChart pieChart;
+    float sum = 0;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -52,25 +56,41 @@ public class GraficPie extends AppCompatActivity {
                     for (int i = 0; i < indexResponse.size(); i++) {
                         android.util.Log.d(TAG, "onResponse: \n " +
                                 "Cultivo " + indexResponse.get(i).getHumedad());
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getN()))));
-                        datap.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getP()))));
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getK()))));
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getTemp()))));
+
+                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getHumedad())),"Hum"));
+                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getN())),"N"));
+                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getP())),"P"));
+                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getK())),"K"));
+                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getTemp())),"T°"));
                     }
 
-                    PieDataSet set1,set2,set3,set4;
 
-                    set1= new PieDataSet(datan,"N");
-                    set1.setColor(Color.BLUE);
-                    set2= new PieDataSet(datan,"P");
-                    set2.setColor(Color.RED);
-                    set3= new PieDataSet(datan,"K");
-                    set3.setColor(Color.YELLOW);
-                    set4= new PieDataSet(datan,"T°");
-                    set4.setColor(Color.GREEN);
-                    PieData pieData =  new PieData(set1);
-                    pieChart.setData(pieData);
+
+                    final int[] sliceColors = {Color.GREEN, Color.RED, Color.BLUE, Color.GRAY, Color.YELLOW};
+                    ArrayList<Integer> colors = new ArrayList<>();
+                    for (int color : sliceColors){
+                        colors.add(color);
+                    }
+
+
+                    PieDataSet dataSet = new PieDataSet(datan,"Values");
+                    dataSet.setColors(colors);
+
+                    PieData data = new PieData(dataSet);
+                    data.setDrawValues(true);
+                    data.setValueFormatter(new PercentFormatter(pieChart));
+                    data.setValueTextSize(12f);
+                    data.setValueTextColor(Color.BLACK);
+
+                    pieChart.setData(data);
+                    pieChart.setDrawHoleEnabled(true);
+                    pieChart.setEntryLabelTextSize(12);
+                    pieChart.setEntryLabelColor(Color.BLACK);
+                    pieChart.setCenterText("NPK Advisor");
+                    pieChart.setCenterTextSize(20);
+                    pieChart.getDescription().setEnabled(false);
                     pieChart.invalidate();
+
                 }
             }
             @Override
