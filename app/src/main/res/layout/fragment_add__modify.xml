@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/fondomodificar">
+    android:background="@mipmap/fondovacioverde">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
@@ -18,7 +18,7 @@
         android:layout_width="343dp"
         android:layout_height="36dp"
         android:layout_marginTop="128dp"
-        android:background="@mipmap/cuadroblancodiseno"
+        android:background="@mipmap/cajontxtverde"
         android:ems="10"
         android:gravity="center"
         android:hint="Ingrese área del cultivo en m2"
@@ -33,7 +33,7 @@
         android:layout_width="343dp"
         android:layout_height="36dp"
         android:layout_marginTop="68dp"
-        android:background="@mipmap/cuadroblancodiseno"
+        android:background="@mipmap/cajontxtverde"
         android:ems="10"
         android:gravity="center"
         android:hint="Ingrese nombre del cultivo"
@@ -47,8 +47,10 @@
         android:id="@+id/imageButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="496dp"
+        android:layout_marginTop="500dp"
+        android:background="@mipmap/guardar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/guardar" />

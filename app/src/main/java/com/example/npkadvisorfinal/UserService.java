@@ -11,8 +11,12 @@ public interface UserService {
 
     //Añadir un nuevo usuario
     @NonNull
-    @POST("persona/AddPersona/")
+    @POST("persona")
     Call<UserResponse> saveUser(@Body UserRequest userRequest);
+
+    @NonNull
+    @GET("persona")
+    Call<UserResponse> FindUser();
 
     //Settings Login Authentication
     @NonNull
@@ -26,7 +30,7 @@ public interface UserService {
 
     //consultar todos los cultivos
     @NonNull
-    @GET("cultivo")
+    @GET("index")
     Call<CropResponse>findAllC();
 
     //Consultar variables Humedad, Npk, Temperatura

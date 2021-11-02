@@ -68,6 +68,7 @@ public class CropsMenu extends Fragment {
         buttonmodify= vista.findViewById(R.id.reginfo);
         buttondelete = vista.findViewById(R.id.maps);
         buttonverify = vista.findViewById(R.id.graphics);
+
         buttonadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

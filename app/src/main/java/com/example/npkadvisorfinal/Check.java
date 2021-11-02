@@ -1,11 +1,15 @@
 package com.example.npkadvisorfinal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,6 +40,7 @@ public class Check extends Fragment {
     private String mParam1;
     private String mParam2;
     private Spinner spinner;
+    private ImageView btn_check;
     public Check() {
         // Required empty public constructor
     }
@@ -76,7 +81,16 @@ public class Check extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_check, container, false);
         spinner = view.findViewById(R.id.spinner1);
-        ShowCrop();
+        btn_check = view.findViewById(R.id.btn_check);
+        btn_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), History.class);
+                getActivity().startActivity(intent);
+
+            }
+        });
+
 
 
 
@@ -84,6 +98,7 @@ public class Check extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
     public void ShowCrop() {
         Call<CropResponse> cropResponseCall = ApiClient.getUserService().findAllC();
         cropResponseCall.enqueue(new Callback<CropResponse>() {
