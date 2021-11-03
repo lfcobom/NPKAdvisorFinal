@@ -1,9 +1,12 @@
 package com.example.npkadvisorfinal;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +19,12 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +39,7 @@ import retrofit2.Response;
 public class History extends AppCompatActivity {
     ImageButton ChooseDate;
     ImageButton ChooseDateHasta;
+    Button csvExport;
     Button Saveb;
     TextView ChooseT1;
     TextView ChooseT;
@@ -49,6 +58,7 @@ public class History extends AppCompatActivity {
         ChooseDateHasta = findViewById(R.id.choosedate1);
         ChooseT = findViewById(R.id.chooseText);
         ChooseT1 = findViewById(R.id.choosedateT1);
+        csvExport = findViewById(R.id.csv);
         Saveb = findViewById(R.id.saveDate);
 
         Saveb.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +68,19 @@ public class History extends AppCompatActivity {
                Saveb.setEnabled(false);
             }
         });
+
+        RequestPermissions();
+        datalist();
+
+        csvExport.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                datalist();
+                Toast.makeText(com.example.npkadvisorfinal.History.this,"Se creo existosamente" ,Toast.LENGTH_SHORT).show();
+                //humedadlist();
+            }
+        });
+
         ChooseDateHasta.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -96,7 +119,7 @@ public class History extends AppCompatActivity {
                             Date date2 = sdf.parse(ChooseT1.getText().toString());
                             Date datedb = sdf.parse(IndexReponses.get(i).getCreateAt());
 
-                            if (datedb.after(date1) && datedb.before(date2)) {
+                            if ((datedb.after(date1)||datedb.equals(date1)) && (datedb.before(date2)||datedb.equals(date2))) {
                                 fila = new TableRow(com.example.npkadvisorfinal.History.this);
                                 fila.setLayoutParams(layoutFila);
                                 if (i == 0) {
@@ -252,5 +275,114 @@ public class History extends AppCompatActivity {
         }
                 ,day1,month1,year1);
         datePickerDialog.show();
+    }
+
+    public void RequestPermissions(){
+
+        if(ContextCompat.checkSelfPermission(com.example.npkadvisorfinal.History.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(com.example.npkadvisorfinal.History.this, new String []{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+        }
+    }
+    public void datalist(){
+        File file = new File(Environment.getExternalStorageDirectory() + "/CSV");
+        String archivo = file.toString()+"/"+"NPK.csv";
+
+        boolean isCreate = false;
+        if(!file.exists()){
+            isCreate = file.mkdir();
+        }
+        Call<IndexResponse> indexResponseCall = ApiClient.getUserService().findIndex1();
+        ArrayList<String> data = new ArrayList<>();
+        indexResponseCall.enqueue(new Callback<IndexResponse>() {
+            @Override
+            public void onResponse(Call<IndexResponse> call, Response<IndexResponse> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<IndexResponse2> IndexReponses = response.body().getInfoIndex();
+
+                    try {
+                        FileWriter fileWriter = new FileWriter(archivo);
+                        fileWriter.write("N");
+                        fileWriter.write(",");
+                        fileWriter.write("P");
+                        fileWriter.write(",");
+                        fileWriter.write("K");
+                        fileWriter.write("\n");
+
+
+                        for (int i = 0; i < IndexReponses.size(); i++) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                            try {
+                                Date date1 = sdf.parse(ChooseT.getText().toString());
+                                Date date2 = sdf.parse(ChooseT1.getText().toString());
+                                Date datedb = sdf.parse(IndexReponses.get(i).getCreateAt());
+                                if ((datedb.after(date1) || datedb.equals(date1)) && (datedb.before(date2) || datedb.equals(date2))) {
+                                    fileWriter.write(IndexReponses.get(i).getN().toString());
+                                    fileWriter.write(",");
+                                    fileWriter.write(IndexReponses.get(i).getP().toString());
+                                    fileWriter.write(",");
+                                    fileWriter.write(IndexReponses.get(i).getK().toString());
+                                    fileWriter.write(",");
+                                    fileWriter.write("\n");
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        fileWriter.flush();
+                        fileWriter.close();
+                        Toast.makeText(com.example.npkadvisorfinal.History.this, "Se creo existosamente", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<IndexResponse> call, Throwable t) {
+                Toast.makeText(com.example.npkadvisorfinal.History.this, "Request Failed", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+    public void humedadlist(){
+        File file = new File(Environment.getExternalStorageDirectory() + "/CSV");
+        String archivo = file.toString()+"/"+"Humedad.csv";
+
+        boolean isCreate = false;
+        if(!file.exists()){
+            isCreate = file.mkdir();
+        }
+        Call<IndexResponse> indexResponseCall = ApiClient.getUserService().findIndex1();
+        ArrayList<String> data = new ArrayList<>();
+        indexResponseCall.enqueue(new Callback<IndexResponse>() {
+            @Override
+            public void onResponse(Call<IndexResponse> call, Response<IndexResponse> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<IndexResponse2> IndexReponses = response.body().getInfoIndex();
+                    try {
+                        FileWriter fileWriter = new FileWriter(archivo);
+                        int count = 0;
+                        for (int i = 0; i < IndexReponses.size(); i++) {
+                            count++;
+                            fileWriter.write(IndexReponses.get(i).getHumedad().toString());
+                            fileWriter.write(",");
+                            if (count == 5){
+                                fileWriter.write("\n");
+                                count = 0;
+                            }
+                        }
+                        fileWriter.flush();
+                        fileWriter.close();
+                    }
+                    catch (Exception e){}
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<IndexResponse> call, Throwable t) {
+                Toast.makeText(com.example.npkadvisorfinal.History.this, "Request Failed", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
