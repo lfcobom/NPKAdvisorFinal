@@ -306,6 +306,10 @@ public class History extends AppCompatActivity {
                         fileWriter.write("P");
                         fileWriter.write(",");
                         fileWriter.write("K");
+                        fileWriter.write(",");
+                        fileWriter.write("Hum");
+                        fileWriter.write(",");
+                        fileWriter.write("T°");
                         fileWriter.write("\n");
 
 
@@ -322,6 +326,9 @@ public class History extends AppCompatActivity {
                                     fileWriter.write(",");
                                     fileWriter.write(IndexReponses.get(i).getK().toString());
                                     fileWriter.write(",");
+                                    fileWriter.write(IndexReponses.get(i).getHumedad().toString());
+                                    fileWriter.write(",");
+                                    fileWriter.write(IndexReponses.get(i).getTemp().toString());
                                     fileWriter.write("\n");
                                 }
                             } catch (Exception e) {
@@ -330,7 +337,6 @@ public class History extends AppCompatActivity {
                         }
                         fileWriter.flush();
                         fileWriter.close();
-                        Toast.makeText(com.example.npkadvisorfinal.History.this, "Se creo existosamente", Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
