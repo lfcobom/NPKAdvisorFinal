@@ -26,7 +26,7 @@
             android:icon="@android:drawable/ic_menu_add"
             android:title="Registrar Información" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/mapas"
             android:icon="@android:drawable/ic_menu_mapmode"
             android:title="Mapas" />
         <item

@@ -33,6 +33,11 @@
         android:name="com.example.npkadvisorfinal.Grafic"
         android:label="activity_grafic"
         tools:layout="@layout/activity_grafic" />
+    <activity
+        android:id="@+id/mapas"
+        android:name="com.example.npkadvisorfinal.Mapas"
+        android:label="activity_mapas"
+        tools:layout="@layout/activity_mapas" />
 
 
 </navigation>

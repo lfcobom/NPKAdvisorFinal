@@ -30,6 +30,29 @@ public class IndexResponse2 {
     @SerializedName("Temp")
     @Expose
     private double Temp;
+    @SerializedName("Long")
+    @Expose
+    private double Long;
+
+    public double getLong() {
+        return Long;
+    }
+
+    public void setLong(double aLong) {
+        Long = aLong;
+    }
+
+    public double getLati() {
+        return Lati;
+    }
+
+    public void setLati(double lati) {
+        Lati = lati;
+    }
+
+    @SerializedName("Lati")
+    @Expose
+    private double Lati;
 
     public Double getN() {
         return N;
@@ -117,6 +140,8 @@ public class IndexResponse2 {
                 ", K=" + K +
                 ", Ph=" + Ph +
                 ", Temp=" + Temp +
+                ", Long=" + Long +
+                ", Lati=" + Lati+
                 '}';
     }
 }
