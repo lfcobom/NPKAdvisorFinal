@@ -1,12 +1,27 @@
 package com.example.npkadvisorfinal;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +38,8 @@ public class Add_Modify extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Spinner spinnermodify;
+    private ImageButton btn_salvar;
 
     public Add_Modify() {
         // Required empty public constructor
@@ -60,6 +77,43 @@ public class Add_Modify extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add__modify, container, false);
+        View view = inflater.inflate(R.layout.fragment_add__modify, container, false);
+        spinnermodify = view.findViewById(R.id.spinnermodify);
+        btn_salvar = view.findViewById(R.id.salvar);
+        btn_salvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), Modify.class);
+                getActivity().startActivity(intent);
+            }
+        });
+        ShowCrop();
+        return view;
+
+    }
+
+    public void ShowCrop() {
+        Call<CropResponse> cropResponseCall = ApiClient.getUserService().findAllC();
+        cropResponseCall.enqueue(new Callback<CropResponse>() {
+            @Override
+            public void onResponse(Call<CropResponse> call, Response<CropResponse> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<CropResponse2> cropResponses = response.body().getCultivosBuscados();
+                    ArrayList<String> crops = new ArrayList<>();
+                    for (int i = 0; i < cropResponses.size(); i++) {
+                        // Log.d(TAG, "onResponse: \n " +
+                        //       "Cultivo " + cropResponses.get(i).getCNombre());
+                        crops.add(cropResponses.get(i).getCNombre());
+                    }
+                    ArrayAdapter<CharSequence> adaptador = new ArrayAdapter(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, crops);
+                    spinnermodify.setAdapter(adaptador);
+                }
+            }
+            @Override
+            public void onFailure(Call<CropResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Verifique su conexión a internet", Toast.LENGTH_LONG).show();
+                //System.out.println("causes" + t.fillInStackTrace());
+            }
+        });
     }
 }

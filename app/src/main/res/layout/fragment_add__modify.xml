@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/fondovacioverde">
+    android:background="@mipmap/fondomodificar">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
@@ -13,46 +13,26 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName8"
-        android:layout_width="343dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="128dp"
-        android:background="@mipmap/cajontxtverde"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Ingrese área del cultivo en m2"
-        android:inputType="textPersonName"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName9"
-        android:layout_width="343dp"
-        android:layout_height="36dp"
+    <Spinner
+        android:id="@+id/spinnermodify"
+        android:layout_width="344dp"
+        android:layout_height="33dp"
         android:layout_marginTop="68dp"
-        android:background="@mipmap/cajontxtverde"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Ingrese nombre del cultivo"
-        android:inputType="textPersonName"
-        android:textStyle="italic"
+        android:background="@mipmap/barraeliminar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
-        android:background="@mipmap/guardar"
+        android:id="@+id/salvar"
+        android:layout_width="134dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="212dp"
+        android:background="@mipmap/btnmodificar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/guardar" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

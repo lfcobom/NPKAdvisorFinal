@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -90,10 +91,7 @@ public class Check extends Fragment {
 
             }
         });
-
-
-
-
+        ShowCrop();
 
         // Inflate the layout for this fragment
         return view;
@@ -106,11 +104,13 @@ public class Check extends Fragment {
             public void onResponse(Call<CropResponse> call, Response<CropResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<CropResponse2> cropResponses = response.body().getCultivosBuscados();
+                    ArrayList<String> cropss = new ArrayList<>();
                     for (int i = 0; i < cropResponses.size(); i++) {
-                        Log.d(TAG, "onResponse: \n " +
-                                "Cultivo " + cropResponses.get(i).getCNombre());
+                       // Log.d(TAG, "onResponse: \n " +
+                         //       "Cultivo " + cropResponses.get(i).getCNombre());
+                       cropss.add(cropResponses.get(i).getCNombre());
                     }
-                        ArrayAdapter<CharSequence> adaptador = new ArrayAdapter(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, cropResponses);
+                        ArrayAdapter<CharSequence> adaptador = new ArrayAdapter(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, cropss);
                         spinner.setAdapter(adaptador);
                 }
             }

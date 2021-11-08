@@ -72,7 +72,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(new LatLng(latitud, longitud));
                         tmpRealTimeMarkers.add(mMap.addMarker(markerOptions));
+
                     }
+
                     RealTimeMarkers.clear();
                     RealTimeMarkers.addAll(tmpRealTimeMarkers);
                 }
