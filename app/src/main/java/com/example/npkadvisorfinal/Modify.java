@@ -26,10 +26,9 @@ public class Modify extends AppCompatActivity {
         cropname = findViewById(R.id.cropnametxt);
         croparea = findViewById(R.id.areatxt);
         String name = getIntent().getStringExtra("name");
-        String area = getIntent().getStringExtra("area");
         cropname.setText(name);
-        cropname.setText(area);
-
+        String area = getIntent().getStringExtra("area");
+        croparea.setText(area);
         modificar = findViewById(R.id.modificar);
     }
 

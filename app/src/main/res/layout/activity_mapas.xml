@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/fondogeneral"
     tools:context=".Mapas">
 
     <Button
         android:id="@+id/mapa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="325dp"
-        android:layout_marginEnd="151dp"
-        android:layout_marginRight="151dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
         android:text="ir al Mapa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

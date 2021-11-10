@@ -4,29 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/fondoestadisticas"
     tools:context=".Grafic">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <Button
+        android:id="@+id/bar"
+        android:layout_width="98dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="466dp"
+        android:background="@mipmap/btnbarchart"
+        android:text="Bar Chart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bar Chart" />
+    <Button
+        android:id="@+id/pie"
+        android:layout_width="97dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="466dp"
+        android:background="@mipmap/btnpiechart"
+        android:text="Pie Chart"
+        app:layout_constraintStart_toEndOf="@+id/bar"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/pie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Pie Chart" />
+    <Button
+        android:id="@+id/line"
+        android:layout_width="98dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="466dp"
+        android:background="@mipmap/btnlinechart"
+        android:text="Line Chart"
+        app:layout_constraintStart_toEndOf="@+id/pie"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Line Chart" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="33dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="332dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@mipmap/flechafecha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="33dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@mipmap/flechafecha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
