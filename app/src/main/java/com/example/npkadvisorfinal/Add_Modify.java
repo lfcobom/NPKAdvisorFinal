@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ public class Add_Modify extends Fragment {
     private String mParam1;
     private String mParam2;
     private Spinner spinnermodify;
-    private ImageButton btn_salvar;
+    private ImageButton btn_modify;
     private String ID;
     private String cropname;
     private String croparea;
@@ -79,15 +80,16 @@ public class Add_Modify extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add__modify, container, false);
+        ShowCrop();
         spinnermodify = view.findViewById(R.id.spinnermodify);
-        btn_salvar = view.findViewById(R.id.modificar);
-        btn_salvar.setOnClickListener(new View.OnClickListener() {
+        btn_modify = view.findViewById(R.id.modifyy);
+        btn_modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Enviar(view);
+
             }
         });
-        ShowCrop();
         return view;
 
     }
@@ -128,6 +130,7 @@ public class Add_Modify extends Fragment {
     }
     public void Enviar(View view){
         Intent intent = new Intent(getActivity(), Modify.class);
+        intent.putExtra("id", ID);
         intent.putExtra("name", cropname);
         intent.putExtra("area", croparea);
         getActivity().startActivity(intent);

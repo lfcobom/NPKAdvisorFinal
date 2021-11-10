@@ -15,7 +15,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="466dp"
         android:background="@mipmap/btnbarchart"
-        android:text="Bar Chart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +26,6 @@
         android:layout_marginLeft="13dp"
         android:layout_marginTop="466dp"
         android:background="@mipmap/btnpiechart"
-        android:text="Pie Chart"
         app:layout_constraintStart_toEndOf="@+id/bar"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +37,6 @@
         android:layout_marginLeft="13dp"
         android:layout_marginTop="466dp"
         android:background="@mipmap/btnlinechart"
-        android:text="Line Chart"
         app:layout_constraintStart_toEndOf="@+id/pie"
         app:layout_constraintTop_toTopOf="parent" />
 

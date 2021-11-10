@@ -2,11 +2,17 @@ package com.example.npkadvisorfinal;
 
 import androidx.annotation.NonNull;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface UserService {
@@ -49,6 +55,11 @@ public interface UserService {
     @NonNull
     @DELETE("cultivo/{Id}")
     Call<CropResponse>delete(@Path("Id") String cropId);
+    
+    //Actualizar cultivos
+    @Headers({"Content-Type: application/json"})
+    @PUT("cultivo/{id}")
+    Call<CropResponse> updateCrop (@Path("id") String id, @Body CropResponse2 body);
 
 
 }

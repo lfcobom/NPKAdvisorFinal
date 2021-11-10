@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,6 +19,10 @@ public class Modify extends AppCompatActivity {
     private EditText cropname;
     private EditText croparea;
     private ImageButton modificar;
+    private String name;
+    private double area;
+    private String aarea = String.valueOf(area);
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +30,34 @@ public class Modify extends AppCompatActivity {
         setContentView(R.layout.activity_modify);
         cropname = findViewById(R.id.cropnametxt);
         croparea = findViewById(R.id.areatxt);
-        String name = getIntent().getStringExtra("name");
+        id = getIntent().getStringExtra("id");
+        name = getIntent().getStringExtra("name");
         cropname.setText(name);
-        String area = getIntent().getStringExtra("area");
-        croparea.setText(area);
-        modificar = findViewById(R.id.modificar);
+        aarea = getIntent().getStringExtra("area");
+        croparea.setText(aarea);
+        modificar = findViewById(R.id.guardar);
+        modificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Modificar();
+                modificar.setEnabled(false);
+                cropname.setText("");
+                croparea.setText("");
+            }
+        });
     }
 
     public void Modificar (){
-        Call<CropResponse> cropResponseCall = ApiClient.getUserService().findAllC();
+        CropResponse2 cropResponse2 = new CropResponse2();
+        cropResponse2.setCNombre(cropname.getText().toString());
+        cropResponse2.setCArea(Double.parseDouble(croparea.getText().toString()));
+        Call<CropResponse> cropResponseCall = ApiClient.getUserService().updateCrop(id, cropResponse2);
         cropResponseCall.enqueue(new Callback<CropResponse>() {
             @Override
             public void onResponse(Call<CropResponse> call, Response<CropResponse> response) {
                 if (response.isSuccessful()) {
-                    ArrayList<CropResponse2> cropResponses2 = response.body().getCultivosBuscados();
+                  //  ArrayList<CropResponse2> cropResponses2 = response.body().getCultivosBuscados();
+                    Toast.makeText(Modify.this, "Registro Modificado", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
