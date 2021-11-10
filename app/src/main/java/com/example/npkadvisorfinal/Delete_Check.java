@@ -99,7 +99,6 @@ public class Delete_Check extends Fragment {
              public void onResponse(Call<CropResponse> call, Response<CropResponse> response) {
                  if (response.isSuccessful()) {
                      ArrayList<CropResponse2> cropResponses2 = response.body().getCultivosBuscados();
-                     //ArrayList<String> cropss = new ArrayList<>();
                      for (int i = 0; i < cropResponses2.size(); i++) {
                          cropss.add(cropResponses2.get(i).getCNombre());
                      }

@@ -45,6 +45,7 @@ public interface UserService {
     @GET("index")
     Call<IndexResponse>findIndex1();
 
+    //Eliminar cultivo
     @NonNull
     @DELETE("cultivo/{Id}")
     Call<CropResponse>delete(@Path("Id") String cropId);

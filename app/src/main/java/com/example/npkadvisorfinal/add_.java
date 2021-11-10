@@ -99,7 +99,12 @@ public class add_ extends Fragment {
                     @Override
                     public void onResponse(Call<CropResponse> call, Response<CropResponse> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(getContext(), "Registro exitoso", Toast.LENGTH_LONG).show();
+
+                                Toast.makeText(getContext(), "Registro exitoso", Toast.LENGTH_LONG).show();
+                                cropnombre.setText("");
+                                croparea.setText("");
+                                button.setEnabled(false);
+
                         }
                     }
 

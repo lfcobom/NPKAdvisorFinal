@@ -2,13 +2,12 @@ package com.example.npkadvisorfinal;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,8 +19,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +37,10 @@ public class Add_Modify extends Fragment {
     private String mParam2;
     private Spinner spinnermodify;
     private ImageButton btn_salvar;
+    private String ID;
+    private String cropname;
+    private String croparea;
+    private ArrayList<String> cropss = new ArrayList<>();
 
     public Add_Modify() {
         // Required empty public constructor
@@ -79,12 +80,11 @@ public class Add_Modify extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add__modify, container, false);
         spinnermodify = view.findViewById(R.id.spinnermodify);
-        btn_salvar = view.findViewById(R.id.salvar);
+        btn_salvar = view.findViewById(R.id.modificar);
         btn_salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Modify.class);
-                getActivity().startActivity(intent);
+                Enviar(view);
             }
         });
         ShowCrop();
@@ -99,14 +99,24 @@ public class Add_Modify extends Fragment {
             public void onResponse(Call<CropResponse> call, Response<CropResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<CropResponse2> cropResponses = response.body().getCultivosBuscados();
-                    ArrayList<String> crops = new ArrayList<>();
                     for (int i = 0; i < cropResponses.size(); i++) {
-                        // Log.d(TAG, "onResponse: \n " +
-                        //       "Cultivo " + cropResponses.get(i).getCNombre());
-                        crops.add(cropResponses.get(i).getCNombre());
+                        cropss.add(cropResponses.get(i).getCNombre());
                     }
-                    ArrayAdapter<CharSequence> adaptador = new ArrayAdapter(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, crops);
+                    ArrayAdapter<CharSequence> adaptador = new ArrayAdapter(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, cropss);
                     spinnermodify.setAdapter(adaptador);
+                    spinnermodify.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            ID = cropResponses.get(position).getId();
+                            cropname = cropResponses.get(position).getCNombre();
+                            croparea = cropResponses.get(position).getCArea().toString();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                 }
             }
             @Override
@@ -115,5 +125,11 @@ public class Add_Modify extends Fragment {
                 //System.out.println("causes" + t.fillInStackTrace());
             }
         });
+    }
+    public void Enviar(View view){
+        Intent intent = new Intent(getActivity(), Modify.class);
+        intent.putExtra("name", cropname);
+        intent.putExtra("area", croparea);
+        getActivity().startActivity(intent);
     }
 }

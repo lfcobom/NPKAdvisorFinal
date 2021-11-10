@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     EditText passwordc;
-    FloatingActionButton btn_registro;
+    ImageView btn_registro;
     String mail;
     boolean flag = false;
     boolean flag1 = true;
