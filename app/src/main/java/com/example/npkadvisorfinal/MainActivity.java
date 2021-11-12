@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     EditText username1;
     EditText password1;
     ImageView start_user;
-    TextView register;
+    ImageView register;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
