@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -26,10 +27,14 @@ public interface UserService {
     @GET("persona")
     Call<UserResponse> FindUser();
 
-    //Settings Login Authentication
     @NonNull
-    @POST("persona/login/")
-    Call<UserResponse>SignIn(@Body UserRequest userRequest);
+    @POST("persona/login")
+    Call<LoginModel>login(@Body Login login);
+
+    @NonNull
+    @GET("cultivo")
+    Call<ResponseBody> getSecret(@Header("Authorization")String authToken);
+
 
     //añadir un cultivo
     @NonNull
