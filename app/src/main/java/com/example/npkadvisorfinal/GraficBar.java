@@ -3,6 +3,7 @@ package com.example.npkadvisorfinal;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -17,7 +18,10 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,14 +33,20 @@ public class GraficBar extends AppCompatActivity {
 
      private BarChart bar;
      int[]colorClassArray = new int[]{Color.RED, Color.YELLOW, Color.GREEN, Color.WHITE, Color.CYAN};
+     private String desde;
+     private String hasta;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grafic_bar);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Bundle bundle = getIntent().getExtras();
+        desde =  bundle.getString("desde");
+        hasta = bundle.getString("hasta");
         bar = findViewById(R.id.barChart);
         Databar();
+
     }
 
     public void Databar() {
@@ -53,17 +63,25 @@ public class GraficBar extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ArrayList<IndexResponse2> indexResponse = response.body().getInfoIndex();
                     for (int i = 0; i < indexResponse.size(); i++) {
-                        //android.util.Log.d(TAG, "onResponse: \n " +
-                          //      "Cultivo " + indexResponse.get(i).getHumedad());
-                        datan.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getN().toString())));
-                        datap.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getP().toString())));
-                        datak.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getK().toString())));
-                        datat.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getTemp().toString())));
-                        datah.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getHumedad().toString())));
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            Date date1 = sdf.parse(desde);
+                            Date date2 = sdf.parse(hasta);
+                            Date datedb = sdf.parse(indexResponse.get(i).getCreateAt());
 
-
+                            if ((datedb.after(date1) || datedb.equals(date1)) && (datedb.before(date2) || datedb.equals(date2))) {
+                                //android.util.Log.d(TAG, "onResponse: \n " +
+                                //      "Cultivo " + indexResponse.get(i).getHumedad());
+                                datan.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getN().toString())));
+                                datap.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getP().toString())));
+                                datak.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getK().toString())));
+                                datat.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getTemp().toString())));
+                                datah.add(new BarEntry(i, Float.parseFloat(indexResponse.get(i).getHumedad().toString())));
+                            }
+                        }catch (ParseException e){
+                            e.printStackTrace();
+                        }
                     }
-
                     BarDataSet set1,set2,set3,set4,set5;
 
                     set1= new BarDataSet(datan,"N");
@@ -79,16 +97,6 @@ public class GraficBar extends AppCompatActivity {
                     BarData barData =  new BarData(set1,set2,set3,set4,set5);
                     bar.setData(barData);
                     bar.invalidate();
-
-
-
-
-
-
-
-
-
-
                 }
             }
             @Override

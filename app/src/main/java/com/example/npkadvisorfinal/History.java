@@ -70,7 +70,6 @@ public class History extends AppCompatActivity {
         });
 
         RequestPermissions();
-        datalist();
 
         csvExport.setOnClickListener(new View.OnClickListener(){
             @Override

@@ -23,14 +23,17 @@ public interface UserService {
     @POST("persona")
     Call<UserResponse> saveUser(@Body UserRequest userRequest);
 
+    //Encontrar usuarios
     @NonNull
     @GET("persona")
     Call<UserResponse> FindUser();
 
+    //Login Authentication
     @NonNull
     @POST("persona/login")
     Call<LoginModel>login(@Body Login login);
 
+    //Secret token authentication
     @NonNull
     @GET("cultivo")
     Call<ResponseBody> getSecret(@Header("Authorization")String authToken);

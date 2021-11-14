@@ -3,6 +3,7 @@ package com.example.npkadvisorfinal;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -20,7 +21,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.InterruptedIOException;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +36,8 @@ public class GraficPie extends AppCompatActivity {
 
     PieChart pieChart;
     float sum = 0;
+    private String desde;
+    private String hasta;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -39,6 +45,9 @@ public class GraficPie extends AppCompatActivity {
         setContentView(R.layout.activity_grafic_pie);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         pieChart = findViewById(R.id.pieChart);
+        Bundle bundle = getIntent().getExtras();
+        desde =  bundle.getString("desde");
+        hasta = bundle.getString("hasta");
         Datapie();
     }
 
@@ -54,17 +63,23 @@ public class GraficPie extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ArrayList<IndexResponse2> indexResponse = response.body().getInfoIndex();
                     for (int i = 0; i < indexResponse.size(); i++) {
-                        android.util.Log.d(TAG, "onResponse: \n " +
-                                "Cultivo " + indexResponse.get(i).getHumedad());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            Date date1 = sdf.parse(desde);
+                            Date date2 = sdf.parse(hasta);
+                            Date datedb = sdf.parse(indexResponse.get(i).getCreateAt());
+                            if ((datedb.after(date1) || datedb.equals(date1)) && (datedb.before(date2) || datedb.equals(date2))) {
 
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getHumedad())),"Hum"));
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getN())),"N"));
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getP())),"P"));
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getK())),"K"));
-                        datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getTemp())),"T°"));
+                                datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getHumedad())), "Hum"));
+                                datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getN())), "N"));
+                                datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getP())), "P"));
+                                datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getK())), "K"));
+                                datan.add(new PieEntry(Float.parseFloat(String.valueOf(indexResponse.get(i).getTemp())), "T°"));
+                            }
+                        }catch (ParseException e){
+                            e.printStackTrace();
+                        }
                     }
-
-
 
                     final int[] sliceColors = {Color.GREEN, Color.RED, Color.BLUE, Color.GRAY, Color.YELLOW};
                     ArrayList<Integer> colors = new ArrayList<>();

@@ -3,6 +3,7 @@ package com.example.npkadvisorfinal;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -21,7 +22,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,12 +39,17 @@ public class GraficLine extends AppCompatActivity {
     LineData lineData;
     LineData lineData2;
     LineChart lineChart2;
+    private String desde;
+    private String hasta;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grafic_line);
         lineChart = findViewById(R.id.radarChart);
+        Bundle bundle = getIntent().getExtras();
+        desde =  bundle.getString("desde");
+        hasta = bundle.getString("hasta");
         Dataradar();
     }
 
@@ -59,15 +68,21 @@ public class GraficLine extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ArrayList<IndexResponse2> indexResponse = response.body().getInfoIndex();
                     for (int i = 0; i < indexResponse.size(); i++) {
-                        android.util.Log.d(TAG, "onResponse: \n " +
-                                "Cultivo " + indexResponse.get(i).getHumedad());
-                        datan.add(new Entry(i, Float.parseFloat(String.valueOf(indexResponse.get(i).getN()))));
-                        datap.add(new Entry(i,Float.parseFloat(String.valueOf(indexResponse.get(i).getP()))));
-                        datak.add(new Entry(i,Float.parseFloat(String.valueOf(indexResponse.get(i).getK()))));
-                        datatemp.add(new Entry(i,Float.parseFloat(String.valueOf(indexResponse.get(i).getTemp()))));
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            Date date1 = sdf.parse(desde);
+                            Date date2 = sdf.parse(hasta);
+                            Date datedb = sdf.parse(indexResponse.get(i).getCreateAt());
+                            if ((datedb.after(date1) || datedb.equals(date1)) && (datedb.before(date2) || datedb.equals(date2))) {
+                                datan.add(new Entry(i, Float.parseFloat(String.valueOf(indexResponse.get(i).getN()))));
+                                datap.add(new Entry(i, Float.parseFloat(String.valueOf(indexResponse.get(i).getP()))));
+                                datak.add(new Entry(i, Float.parseFloat(String.valueOf(indexResponse.get(i).getK()))));
+                                datatemp.add(new Entry(i, Float.parseFloat(String.valueOf(indexResponse.get(i).getTemp()))));
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
-
-
                     String[] dates = new String[datadate.size()];
                     for(int i = 0; i< datadate.size(); i++)
                     {
