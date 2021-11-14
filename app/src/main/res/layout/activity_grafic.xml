@@ -64,23 +64,27 @@
 
     <TextView
         android:id="@+id/txtdesde"
-        android:layout_width="191dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:text="TextView"
+        android:layout_width="245dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="328dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:gravity="center"
+        android:text="FECHA"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txthasta" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txthasta"
-        android:layout_width="200dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="TextView"
+        android:layout_width="245dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="368dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:gravity="center"
+        android:text="FECHA"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
