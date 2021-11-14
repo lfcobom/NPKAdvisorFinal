@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView start_user;
     ImageView register;
     private static String token;
+    private String email;
 
 
     @Override
@@ -55,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void Open() {  //Lleva a la actividad de Menú después de autenticar las credenciales.
         startActivity(new Intent(MainActivity.this, MainMenu2.class));
     }
+
     public void OpenRegister() {  //Lleva a la actividad de Menú después de autenticar las credenciales.
         startActivity(new Intent(MainActivity.this, SignUpActivity.class));
     }
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void SignIn() {
         if (validate()) {
+            email = username1.getText().toString();
             Login login = new Login(username1.getText().toString(), password1.getText().toString());
             Call<LoginModel> userResponseCall = ApiClient.getUserService().login(login);
             userResponseCall.enqueue(new Callback<LoginModel>() {
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         token = response.body().getToken();
                         getSecret();
-                        Open();
+                        Enviar();
                         //Toast.makeText(MainActivity.this, "Iniciando Sesión...", Toast.LENGTH_LONG).show();
 
                     } else {
@@ -103,14 +105,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getSecret(){
+    private void getSecret() {
         Call<ResponseBody> call = ApiClient.getUserService().getSecret(token);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "Iniciando Sesión...", Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "Verifica tus credenciales", Toast.LENGTH_LONG).show();
                 }
             }
@@ -121,5 +123,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void Enviar() {
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(MainActivity.this, MainMenu2.class);
+        // Agregas la información del EditText al Bundle
+        bundle.putString("email", email);
+        // Agregas el Bundle al Intent e inicias ActivityB
+        intent.putExtras(bundle);
+        MainActivity.this.startActivity(intent);
     }
 }
